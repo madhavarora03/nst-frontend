@@ -1,7 +1,16 @@
+import {Outlet} from "react-router";
+import Header from "./components/Header.tsx";
+import Footer from "./components/Footer.tsx";
+
 export default function App() {
-    return (
-        <div className="flex items-center justify-center min-h-screen gap-2">
-          Hello from TailwindCSS and <span className="badge badge-sm badge-primary">DaisyUI</span>
-        </div>
-    )
+  return (
+      <>
+        <Header/>
+        <main className="min-h-[calc(100vh-18rem+2px)] bg-base-300">
+          <Outlet/>
+        </main>
+        <Footer/>
+      </>
+
+  )
 }
