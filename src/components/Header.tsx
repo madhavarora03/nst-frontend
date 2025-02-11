@@ -2,7 +2,7 @@ import {Zap} from "lucide-react";
 
 export default function Header() {
   return (
-      <nav className="navbar bg-primary text-primary-content shadow-sm">
+      <header className="navbar bg-primary text-primary-content shadow-sm">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -71,6 +71,6 @@ export default function Header() {
             </ul>
           </div>
         </div>
-      </nav>
+      </header>
   )
 }
