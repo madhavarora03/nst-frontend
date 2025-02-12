@@ -6,12 +6,18 @@ import {createBrowserRouter, createRoutesFromChildren, Route, RouterProvider} fr
 import HomePage from "./pages/HomePage.tsx";
 import ProtectedRoutes from "./components/ProtectedRoutes.tsx";
 import Providers from "./components/Providers.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import AuthOutlet from "./components/AuthOutlet.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromChildren(
         <Route element={<App/>}>
           <Route element={<ProtectedRoutes/>}>
             <Route index element={<HomePage/>}/>
+          </Route>
+          <Route element={<AuthOutlet/>}>
+            <Route path="/login" element={<LoginPage/>}/>
+            {/*<Route path="/register" element={<SignUpPage />} />*/}
           </Route>
         </Route>
     )

@@ -1,9 +1,17 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {User} from "../types/interfaces.ts";
 import {apiClient} from "../utils/api-client.ts";
+import axios from "axios";
+
+interface SignInProps {
+  identifier: string;
+  password: string;
+}
 
 interface AuthContextType {
   user?: User;
+  signIn?: (credentials: SignInProps) => Promise<void>;
+  signOut?: () => Promise<void>;
   loading: boolean;
 }
 
@@ -11,23 +19,37 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({loading: true});
 
 export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      apiClient.get_user(token)
-          .then(res => setUser(res.user))
-          .catch(() => localStorage.removeItem("token"))
-          .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    apiClient.get_user()
+        .then(res => setUser(res.user))
+        .catch(() => setUser(undefined))
+        .finally(() => setLoading(false));
   }, []);
 
+  const signIn = async ({identifier, password}: SignInProps) => {
+    try {
+      const res = await apiClient.login(identifier, password);
+      console.log(res);
+      if (res.user) {
+        setUser(res.user);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signOut = async () => {
+  }
+
   return (
-      <AuthContext.Provider value={{user, loading}}>
+      <AuthContext.Provider value={{user, signIn, signOut, loading}}>
         {children}
       </AuthContext.Provider>
   );

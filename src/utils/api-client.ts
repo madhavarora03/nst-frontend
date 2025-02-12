@@ -4,8 +4,7 @@ import {User} from "../types/interfaces.ts"
 
 type AuthResponse = {
   message: string;
-  user: User;
-  access_token?: string;
+  user?: User;
 }
 
 type FetchOptions<T = unknown> = {
@@ -43,8 +42,8 @@ class ApiClient {
 
   async register(){}
 
-  async login(identifier: string, password: string): Promise<void> {
-    return this.fetch("/api/user/login", {
+  async login(identifier: string, password: string) {
+    return this.fetch<AuthResponse>("/api/user/login", {
       method: "POST",
       body: JSON.stringify({identifier, password}),
     })
@@ -52,12 +51,9 @@ class ApiClient {
 
   async logout(){}
 
-  async get_user(token: string){
+  async get_user(){
     return this.fetch<AuthResponse>("/api/user/", {
       method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
     })
   }
 }
