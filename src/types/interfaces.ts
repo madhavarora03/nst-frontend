@@ -5,5 +5,5 @@ export interface User {
   username: string;
   password: string;
   credits: number;
-  created_at: string;
+  created_at: Date;
 }

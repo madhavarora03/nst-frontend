@@ -1,7 +1,7 @@
 import {Outlet, useNavigate} from "react-router";
 import Footer from "./Footer";
 import Header from "./Header";
-import useAuth from "../context/AuthContext.tsx";
+import useAuth from "../hooks/useAuth";
 import {useEffect} from "react";
 
 export default function ProtectedRoutes() {
@@ -17,7 +17,7 @@ export default function ProtectedRoutes() {
   if (loading) {
     return (
         <div className="flex items-center justify-center min-h-screen">
-          <span className="loading loading-spinner loading-xl text-accent" />
+          <span className="loading loading-spinner loading-xl text-accent"/>
         </div>
     );
   }

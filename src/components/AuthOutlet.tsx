@@ -1,9 +1,9 @@
-import { Outlet, useNavigate } from "react-router";
-import useAuth from "../context/AuthContext";
-import { useEffect } from "react";
+import {Outlet, useNavigate} from "react-router";
+import useAuth from "../hooks/useAuth";
+import {useEffect} from "react";
 
 export default function AuthOutlet() {
-  const { user, loading } = useAuth();
+  const {user, loading} = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,14 +15,14 @@ export default function AuthOutlet() {
   if (loading) {
     return (
         <div className="flex items-center justify-center min-h-screen">
-          <span className="loading loading-spinner loading-xl text-accent" />
+          <span className="loading loading-spinner loading-xl text-accent"/>
         </div>
     );
   }
 
   return (
       <div className="min-h-screen">
-        <Outlet />
+        <Outlet/>
       </div>
   );
 }

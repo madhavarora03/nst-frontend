@@ -1,6 +1,6 @@
 import {Link, useNavigate} from "react-router";
 import {FormEvent, useState} from "react";
-import useAuth from "../context/AuthContext.tsx";
+import useAuth from "../hooks/useAuth";
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState<string>("");
@@ -20,7 +20,7 @@ export default function LoginPage() {
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="carousel carousel-vertical rounded-box h-96">
             <div className="carousel-item h-full">
-              <img alt="" src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp" />
+              <img alt="" src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"/>
             </div>
           </div>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -49,7 +49,8 @@ export default function LoginPage() {
                   />
                   <div><Link to="" className="link link-hover">Forgot password?</Link></div>
                   <button type="submit" className="btn btn-neutral my-4">Login</button>
-                  <div className="text-base">New user? <Link to="" className="link link-hover link-info">Register Now!</Link></div>
+                  <div className="text-base">New user? <Link to="" className="link link-hover link-info">Register
+                    Now!</Link></div>
                 </fieldset>
               </form>
             </div>

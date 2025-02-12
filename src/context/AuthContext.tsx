@@ -1,22 +1,9 @@
-import {createContext, ReactNode, useContext, useEffect, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import {User} from "../types/interfaces.ts";
 import {apiClient} from "../utils/api-client.ts";
 import axios from "axios";
+import {AuthContext, SignInProps} from "../hooks/useAuth";
 
-interface SignInProps {
-  identifier: string;
-  password: string;
-}
-
-interface AuthContextType {
-  user?: User;
-  signIn?: (credentials: SignInProps) => Promise<void>;
-  signOut?: () => Promise<void>;
-  loading: boolean;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext<AuthContextType>({loading: true});
 
 export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
   const [user, setUser] = useState<User | undefined>();
@@ -54,8 +41,3 @@ export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
       </AuthContext.Provider>
   );
 };
-
-// eslint-disable-next-line react-refresh/only-export-components
-export default function useAuth() {
-  return useContext(AuthContext);
-}
