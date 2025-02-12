@@ -17,9 +17,9 @@ export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
   }, []);
 
   const signIn = async ({identifier, password}: SignInProps) => {
+    setLoading(true);
     try {
       const res = await apiClient.login(identifier, password);
-      console.log(res);
       if (res.user) {
         setUser(res.user);
       }
@@ -33,8 +33,18 @@ export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
   };
 
   const signOut = async () => {
+    setLoading(true);
+    try {
+      await apiClient.logout();
+      setUser(undefined);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   }
-
   return (
       <AuthContext.Provider value={{user, signIn, signOut, loading}}>
         {children}

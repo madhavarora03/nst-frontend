@@ -1,9 +1,14 @@
 import {Zap} from "lucide-react";
-import {Link} from "react-router";
+import {Link, useNavigate} from "react-router";
 import useAuth from "../hooks/useAuth.tsx";
 
 export default function Header() {
-  const {user} = useAuth()
+  const {user, signOut} = useAuth();
+  const navigate = useNavigate();
+  const handleSignOut = async () => {
+    await signOut!();
+    navigate("/login");
+  }
   return (
       <header className="navbar bg-primary text-primary-content shadow-sm">
         <div className="navbar-start">
@@ -42,7 +47,9 @@ export default function Header() {
                 </a>
               </li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li>
+                <button onClick={handleSignOut}>Logout</button>
+              </li>
             </ul>
           </div>
         </div>

@@ -14,6 +14,28 @@ type FetchOptions<T = unknown> = {
 };
 
 class ApiClient {
+  async register() {
+  }
+
+  async login(identifier: string, password: string) {
+    return this.fetch<AuthResponse>("/api/user/login", {
+      method: "POST",
+      body: JSON.stringify({identifier, password}),
+    })
+  }
+
+  async logout() {
+    return this.fetch<AuthResponse>("/api/user/logout", {
+      method: "POST",
+    })
+  }
+
+  async get_user() {
+    return this.fetch<AuthResponse>("/api/user/", {
+      method: "GET",
+    })
+  }
+
   private async fetch<T, B = unknown>(
       endpoint: string,
       options: FetchOptions<B> = {method: "GET"}
@@ -38,23 +60,6 @@ class ApiClient {
       }
       throw new Error("An unknown error occurred");
     }
-  }
-
-  async register(){}
-
-  async login(identifier: string, password: string) {
-    return this.fetch<AuthResponse>("/api/user/login", {
-      method: "POST",
-      body: JSON.stringify({identifier, password}),
-    })
-  }
-
-  async logout(){}
-
-  async get_user(){
-    return this.fetch<AuthResponse>("/api/user/", {
-      method: "GET",
-    })
   }
 }
 
