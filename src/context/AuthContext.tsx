@@ -2,10 +2,10 @@ import {ReactNode, useEffect, useState} from "react";
 import {User} from "../types/interfaces.ts";
 import {apiClient} from "../utils/api-client.ts";
 import axios from "axios";
-import {AuthContext, SignInProps} from "../hooks/useAuth";
+import {AuthContext, SignInProps, SignUpProps} from "../hooks/useAuth";
 
 
-export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
+export default function AuthProvider({children}: Readonly<{ children: ReactNode }>) {
   const [user, setUser] = useState<User | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -32,6 +32,10 @@ export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
     }
   };
 
+  const signUp = async ({email, username, name, password}: SignUpProps) => {
+    console.log(email, username, password, name);
+  }
+
   const signOut = async () => {
     setLoading(true);
     try {
@@ -46,7 +50,7 @@ export const AuthProvider = ({children}: Readonly<{ children: ReactNode }>) => {
     }
   }
   return (
-      <AuthContext.Provider value={{user, signIn, signOut, loading}}>
+      <AuthContext.Provider value={{user, signIn, signUp, signOut, loading}}>
         {children}
       </AuthContext.Provider>
   );

@@ -6,9 +6,17 @@ export interface SignInProps {
   password: string;
 }
 
+export interface SignUpProps {
+  email: string;
+  username: string;
+  name: string;
+  password: string;
+}
+
 export interface AuthContextType {
   user?: User;
   signIn?: (credentials: SignInProps) => Promise<void>;
+  signUp?: (fields: SignUpProps) => Promise<void>;
   signOut?: () => Promise<void>;
   loading: boolean;
 }
