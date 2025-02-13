@@ -14,7 +14,11 @@ type FetchOptions<T = unknown> = {
 };
 
 class ApiClient {
-  async register() {
+  async register(email: string, username: string, name: string, password: string) {
+    return this.fetch<AuthResponse>("/api/user/register", {
+      method: "POST",
+      body: JSON.stringify({email, username, name, password}),
+    });
   }
 
   async login(identifier: string, password: string) {

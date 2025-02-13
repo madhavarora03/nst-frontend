@@ -33,7 +33,19 @@ export default function AuthProvider({children}: Readonly<{ children: ReactNode 
   };
 
   const signUp = async ({email, username, name, password}: SignUpProps) => {
-    console.log(email, username, password, name);
+    setLoading(true);
+    try {
+      const res = await apiClient.register(email, username, name, password);
+      if (res.user) {
+        setUser(res.user);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   const signOut = async () => {

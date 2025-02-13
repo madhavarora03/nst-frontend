@@ -1,55 +1,57 @@
 import {Link, useNavigate} from "react-router";
-import {FormEvent, useState} from "react";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {LoginFormData, loginValidationSchema} from "../schemas/login.ts";
 import useAuth from "../hooks/useAuth";
 
 export default function LoginPage() {
-  const [identifier, setIdentifier] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: {errors, isValid},
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginValidationSchema),
+    mode: "onChange",
+  });
+
   const navigate = useNavigate();
   const {signIn} = useAuth();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = async ({identifier, password}: LoginFormData) => {
     await signIn!({identifier, password});
     navigate("/");
-  }
+  };
 
   return (
       <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="carousel carousel-vertical rounded-box h-96">
-            <div className="carousel-item h-full">
-              <img alt="" src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"/>
-            </div>
-          </div>
+        <div className="hero-content w-full">
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
             <div className="card-body">
               <h2 className="card-title text-primary">Login Now!</h2>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset className="fieldset">
                   <label className="fieldset-label" htmlFor="identifier">Email or Username</label>
                   <input
-                      className="input focus:outline-none"
+                      className={`input focus:outline-none ${errors.identifier && "border-error"}`}
                       placeholder="Enter your email or username"
                       id="identifier"
-                      name="identifier"
-                      value={identifier}
-                      onChange={(e) => setIdentifier(e.target.value)}
+                      {...register("identifier")}
                   />
+                  {errors.identifier && <p className="text-error">{errors.identifier.message}</p>}
+
                   <label className="fieldset-label" htmlFor="password">Password</label>
                   <input
                       type="password"
-                      className="input focus:outline-none"
+                      className={`input focus:outline-none ${errors.password && "border-error"}`}
                       placeholder="Enter your password"
                       id="password"
-                      name="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      {...register("password")}
                   />
+                  {errors.password && <p className="text-error">{errors.password.message}</p>}
+
                   <div><Link to="" className="link link-hover">Forgot password?</Link></div>
-                  <button type="submit" className="btn btn-neutral my-4">Login</button>
-                  <div className="text-base">New user? <Link to="" className="link link-hover link-info">Register
+                  <button type="submit" className="btn btn-neutral my-4" disabled={!isValid}>Login</button>
+                  <div className="text-base">New user? <Link to="/register" className="link link-hover link-info">Register
                     Now!</Link></div>
                 </fieldset>
               </form>
@@ -57,5 +59,5 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-  )
+  );
 }
