@@ -25,7 +25,7 @@ export default function ProtectedRoutes() {
   return (
       <>
         <Header/>
-        <div className="min-h-[calc(100vh-10rem)] bg-base-300">
+        <div className="md:min-h-[calc(100vh-9rem-12px)] min-h-[calc(100vh-9rem-48px)] bg-base-300">
           <Outlet/>
         </div>
         <Footer/>
